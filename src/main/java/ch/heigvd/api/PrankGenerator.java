@@ -5,12 +5,16 @@ import ch.heigvd.api.utils.*;
 import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 public class PrankGenerator {
+  private static final String DELIMITER = "==";
+
   public static void main(String[] args) {
-    if (args.length < 3) {
-      System.err.println("Usage: ./main {host} {port} {victims.txt}");
+    if (args.length < 4) {
+      System.err.println("Usage: ./main {host} {port} {victims.txt} {mail_body.txt}");
       return;
     }
 
@@ -19,6 +23,7 @@ public class PrankGenerator {
       String host = args[0];
       int port = Integer.parseInt(args[1]);
       ArrayList<User> victims = getVictims(args[2]);
+      ArrayList<Message> message = getMessages(args[3]);
 
       Socket client = new Socket(host, port);
 
@@ -56,5 +61,30 @@ public class PrankGenerator {
     }
 
     return victims;
+  }
+
+  private static ArrayList<Message> getMessages(String filename) throws IOException {
+    ArrayList<Message> messages = new ArrayList<>();
+
+    Scanner scanner = new Scanner(new File(filename), StandardCharsets.UTF_8);
+    scanner.useDelimiter(DELIMITER);
+
+    while (scanner.hasNext())
+    {
+      String[] lines = scanner.next().split(Mail.LF);
+      String subject = lines[0].contains("Subject:") ? lines[0].replace("Subject:", "").trim() : "<>";
+
+      StringBuilder msgBuilder = new StringBuilder();
+      for (int i = 1; i < lines.length; ++i)
+      {
+        msgBuilder.append(lines[i]);
+        msgBuilder.append(Mail.LF);
+      }
+      String message = msgBuilder.toString();
+
+      //messages.add(new Message(subject, message));
+    }
+
+    return messages;
   }
 }
