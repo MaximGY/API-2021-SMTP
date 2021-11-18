@@ -1,37 +1,30 @@
 package ch.heigvd.api.utils;
 
-import java.util.ArrayList;
-
 public class Mail {
 
     public static String LF = "\n";
     public static String CRLF = "\r\n";
 
-    private final User sender;
-    private final ArrayList<User> recipients;
+    private final Group group;
     private final String body;
 
 
+    Mail(Group group, String body) {
 
-
-    Mail(User sender, ArrayList<User> recipients, String body) {
-
-        this.sender = sender;
-        this.recipients = recipients;
+        this.group = group;
         this.body = body;
     }
 
-    @Override
-    public String toString() {
+    public String getSMTPCommand() {
 
         StringBuilder sb = new StringBuilder();
 
         // Mail sender
-        sb.append("MAIL FROM: <").append(sender.toString()).append('>').append(CRLF);
+        sb.append("MAIL FROM: <").append(group.getSender().getMail()).append('>').append(CRLF);
 
         // Mail recipients
-        for (User rec: recipients)
-            sb.append("RCPT TO: <").append(rec.toString()).append('>').append(CRLF);
+        for (User rec: group.getRecipients())
+            sb.append("RCPT TO: <").append(rec.getMail()).append('>').append(CRLF);
 
         // TODO: add headers to body
         sb.append("DATA").append(CRLF).append(body);
