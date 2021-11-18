@@ -6,13 +6,13 @@ public class Mail {
     public static String CRLF = "\r\n";
 
     private final Group group;
-    private final String body;
+    private final Message message;
 
 
-    Mail(Group group, String body) {
+    Mail(Group group, Message message) {
 
         this.group = group;
-        this.body = body;
+        this.message = message;
     }
 
     public String getSMTPCommand() {
@@ -27,7 +27,7 @@ public class Mail {
             sb.append("RCPT TO: <").append(rec.getMail()).append('>').append(CRLF);
 
         // TODO: add headers to body
-        sb.append("DATA").append(CRLF).append(body);
+        sb.append("DATA").append(CRLF).append(message.getBody());
 
         // End of mail
         sb.append(CRLF).append('.').append(CRLF);
