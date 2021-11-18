@@ -8,8 +8,7 @@ public class User {
         this.email = email;
     }
 
-    @Override
-    public String toString() {
+    public String getMail() {
         return email;
     }
 }
