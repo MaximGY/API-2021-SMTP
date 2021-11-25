@@ -11,27 +11,25 @@ public class PrankGenerator {
   static final Random random = new Random();
 
   public static void main(String[] args) {
-    if (args.length < 4) {
-      System.err.println("Usage: ./main {host} {port} {victims.txt} {mail_body.txt} {settings.txt}");
+    if (args.length != 3) {
+      System.err.println("Usage: ./main {settings.properties} {victims.utf8} {messages.utf8}");
       return;
     }
 
     try {
-
-      String host = args[0];
-      int port = Integer.parseInt(args[1]);
-      ArrayList<User> victims = FileParser.getUsersFromFile(args[2]);
-      ArrayList<Message> messages = FileParser.getMessagesFromFile(args[3]);
+      Properties prop = FileParser.getPropertiesFromFile(args[0]);
+      ArrayList<User> victims = FileParser.getUsersFromFile(args[1]);
+      ArrayList<Message> messages = FileParser.getMessagesFromFile(args[2]);
       int nbGroups = 3;
       ArrayList<Group> groups = generateGroups(victims, nbGroups);
 
       ArrayList<Mail> mails = generateMails(groups, messages);
 
-      Socket client = new Socket(host, port);
+      Socket client =
+          new Socket(prop.getProperty("host"), Integer.parseInt(prop.getProperty("port")));
 
-      for (Mail m : mails)
-      {
-        //m.send(client);
+      for (Mail m : mails) {
+        // m.send(client);
       }
 
       client.close();
@@ -54,7 +52,8 @@ public class PrankGenerator {
   }
 
   private static ArrayList<Group> generateGroups(ArrayList<User> victims, int nbGroups) {
-    if (nbGroups <= 0) throw new RuntimeException("The number of groups must be greater than zéro.");
+    if (nbGroups <= 0)
+      throw new RuntimeException("The number of groups must be greater than zéro.");
 
     ArrayList<Group> groups = new ArrayList<>(nbGroups);
 
@@ -63,24 +62,20 @@ public class PrankGenerator {
 
     final int shift = random.nextInt();
 
-    for (int i = 0; i < victims.size(); ++i)
-    {
+    for (int i = 0; i < victims.size(); ++i) {
       Group group = groups.get(i % nbGroups);
       User user = victims.get((i + shift) % victims.size());
-      if (group.getSender() == null)
-        group.setSender(user);
-      else
-        group.addRecipient(user);
+      if (group.getSender() == null) group.setSender(user);
+      else group.addRecipient(user);
     }
     return groups;
   }
 
-  private static ArrayList<Mail> generateMails(ArrayList<Group> groups, ArrayList<Message> messages)
-  {
+  private static ArrayList<Mail> generateMails(
+      ArrayList<Group> groups, ArrayList<Message> messages) {
     ArrayList<Mail> mails = new ArrayList<>(groups.size());
     final int shift = random.nextInt();
-    for (int i = 0; i < groups.size(); ++i)
-    {
+    for (int i = 0; i < groups.size(); ++i) {
       mails.add(new Mail(groups.get(i), messages.get((i + shift) % messages.size())));
     }
     return mails;
