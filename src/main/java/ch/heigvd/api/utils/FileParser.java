@@ -3,6 +3,7 @@ package ch.heigvd.api.utils;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.Scanner;
 
 public class FileParser {
@@ -40,5 +41,27 @@ public class FileParser {
             victims.add(new User(line));
         }
         return victims;
+    }
+
+    // Inspired from : https://www.tutorialspoint.com/how-to-read-the-data-from-a-properties-file-in-java
+    public static Properties getPropertiesFromFile(String filename) throws IOException {
+
+        FileInputStream fins = null;
+        Properties prop = null;
+
+        try {
+            fins = new FileInputStream(filename);
+            prop = new Properties();
+            prop.load(fins);
+        }
+
+        catch(IOException ioe) {
+            ioe.printStackTrace();
+        }
+        finally {
+            fins.close();
+        }
+
+        return prop;
     }
 }

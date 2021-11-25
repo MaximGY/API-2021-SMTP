@@ -10,19 +10,18 @@ import java.util.*;
 public class PrankGenerator {
 
   public static void main(String[] args) {
-    if (args.length < 4) {
-      System.err.println("Usage: ./main {host} {port} {victims.txt} {mail_body.txt}");
+    if (args.length != 3) {
+      System.err.println("Usage: ./main {settings.properties} {victims.utf8} {messages.utf8}");
       return;
     }
 
     try {
 
-      String host = args[0];
-      int port = Integer.parseInt(args[1]);
-      ArrayList<User> victims = FileParser.getUsersFromFile(args[2]);
-      ArrayList<Message> message = FileParser.getMessagesFromFile(args[3]);
+      Properties prop = FileParser.getPropertiesFromFile(args[0]);
+      ArrayList<User> victims = FileParser.getUsersFromFile(args[1]);
+      ArrayList<Message> message = FileParser.getMessagesFromFile(args[2]);
 
-      Socket client = new Socket(host, port);
+      Socket client = new Socket(prop.getProperty("host"), Integer.parseInt(prop.getProperty("port")));
 
       sendMail(client);
 
