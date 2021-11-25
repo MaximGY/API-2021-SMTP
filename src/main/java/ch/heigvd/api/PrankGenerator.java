@@ -20,7 +20,9 @@ public class PrankGenerator {
 
       Properties prop = FileParser.getPropertiesFromFile(args[0]);
       ArrayList<User> victims = FileParser.getUsersFromFile(args[1]);
-      ArrayList<Message> message = FileParser.getMessagesFromFile(args[2]);
+      ArrayList<Message> messages = FileParser.getMessagesFromFile(args[2]);
+      ArrayList<Group> groups = generateGroups(victims, 3);
+      ArrayList<Mail> mails = generateMails(groups, messages);
 
       Socket client = new Socket(prop.getProperty("host"), Integer.parseInt(prop.getProperty("port")));
 
