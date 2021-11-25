@@ -1,36 +1,28 @@
 package ch.heigvd.api.utils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class FileParser {
-    private static final String DELIMITER = "==";
+    private static final String MESSAGE_DELIMITER = "==";
 
     public static ArrayList<Message> getMessagesFromFile(String filename) throws IOException {
         ArrayList<Message> messages = new ArrayList<>();
 
-        Scanner scanner = new Scanner(new File(filename), StandardCharsets.UTF_8);
-        scanner.useDelimiter(DELIMITER);
+        Scanner scanner = new Scanner(new FileInputStream(filename), StandardCharsets.UTF_8);
+        scanner.useDelimiter(MESSAGE_DELIMITER);
 
-        while (scanner.hasNext())
-        {
-            String[] lines = scanner.next().split(Mail.LF);
-            String subject = lines[0].contains("Subject:") ? lines[0].replace("Subject:", "").trim() : "<>";
+        while (scanner.hasNext()) {
 
-            StringBuilder msgBuilder = new StringBuilder();
-            for (int i = 1; i < lines.length; ++i)
-            {
-                msgBuilder.append(lines[i]);
-                msgBuilder.append(Mail.LF);
-            }
-            String message = msgBuilder.toString();
+            String rawContent = scanner.next();
+            int indexEndSubject = rawContent.indexOf(Mail.CRLF);
 
-            //messages.add(new Message(subject, message));
+            String subject = rawContent.substring(0, indexEndSubject).trim();
+            String body = rawContent.substring(indexEndSubject + Mail.CRLF.length()).trim();
+
+            messages.add(new Message(subject, body));
         }
 
         return messages;
