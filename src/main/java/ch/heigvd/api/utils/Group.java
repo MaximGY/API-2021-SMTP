@@ -4,19 +4,31 @@ import java.util.ArrayList;
 
 public class Group {
 
-    private final User sender;
-    private final ArrayList<User> recipients;
+  private User sender;
+  private ArrayList<User> recipients;
 
-    Group(User sender, ArrayList<User> recipients) {
-        this.sender = sender;
-        this.recipients = recipients;
-    }
+  public Group() {
+    recipients = new ArrayList<>();
+  }
 
-    public User getSender() {
-        return sender;
-    }
+  Group(User sender, ArrayList<User> recipients) {
+    this.sender = sender;
+    this.recipients = recipients;
+  }
 
-    public ArrayList<User> getRecipients() {
-        return recipients;
-    }
+  public User getSender() {
+    return sender;
+  }
+
+  public ArrayList<User> getRecipients() {
+    return recipients;
+  }
+
+  public void setSender(User sender) {
+    this.sender = sender;
+  }
+
+  public void addRecipient(User recipient) {
+    recipients.add(recipient);
+  }
 }
