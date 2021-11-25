@@ -9,7 +9,7 @@ public class Mail {
     private final Message message;
 
 
-    Mail(Group group, Message message) {
+    public Mail(Group group, Message message) {
 
         this.group = group;
         this.message = message;

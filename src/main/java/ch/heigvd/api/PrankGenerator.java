@@ -25,10 +25,14 @@ public class PrankGenerator {
       int nbGroups = 3;
       ArrayList<Group> groups = generateGroups(victims, nbGroups);
 
+      ArrayList<Mail> mails = generateMails(groups, messages);
+
       Socket client = new Socket(host, port);
 
-
-      //sendMail(client);
+      for (Mail m : mails)
+      {
+        //m.send(client);
+      }
 
       client.close();
 
@@ -69,5 +73,16 @@ public class PrankGenerator {
         group.addRecipient(user);
     }
     return groups;
+  }
+
+  private static ArrayList<Mail> generateMails(ArrayList<Group> groups, ArrayList<Message> messages)
+  {
+    ArrayList<Mail> mails = new ArrayList<>(groups.size());
+    final int shift = random.nextInt();
+    for (int i = 0; i < groups.size(); ++i)
+    {
+      mails.add(new Mail(groups.get(i), messages.get((i + shift) % messages.size())));
+    }
+    return mails;
   }
 }
