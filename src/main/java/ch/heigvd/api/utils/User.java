@@ -8,7 +8,7 @@ public class User {
         this.email = email;
     }
 
-    public String getMail() {
+    public String getEMailAddress() {
         return email;
     }
 }
