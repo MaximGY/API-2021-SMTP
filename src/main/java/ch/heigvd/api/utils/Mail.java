@@ -2,8 +2,8 @@ package ch.heigvd.api.utils;
 
 public class Mail {
 
-    public static String LF = "\n";
-    public static String CRLF = "\r\n";
+    public static final String LF = "\n";
+    public static final String CRLF = "\r\n";
 
     private final Group group;
     private final Message message;
