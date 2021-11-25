@@ -8,6 +8,8 @@ import java.util.Scanner;
 
 public class FileParser {
     private static final String MESSAGE_DELIMITER = "==";
+    public static final String LF = "\n";
+    public static final String CRLF = "\r\n";
 
     public static ArrayList<Message> getMessagesFromFile(String filename) throws IOException {
         ArrayList<Message> messages = new ArrayList<>();
@@ -18,10 +20,10 @@ public class FileParser {
         while (scanner.hasNext()) {
 
             String rawContent = scanner.next();
-            int indexEndSubject = rawContent.indexOf(Mail.CRLF);
+            int indexEndSubject = rawContent.indexOf(CRLF);
 
             String subject = rawContent.substring(0, indexEndSubject).trim();
-            String body = rawContent.substring(indexEndSubject + Mail.CRLF.length()).trim();
+            String body = rawContent.substring(indexEndSubject + CRLF.length()).trim();
 
             messages.add(new Message(subject, body));
         }
