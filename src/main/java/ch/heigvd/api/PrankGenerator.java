@@ -15,26 +15,40 @@ public class PrankGenerator {
       System.err.println("Usage: ./main {settings.properties} {victims.utf8} {messages.utf8}");
       return;
     }
+    SMTPSocket smtpSocket = null;
 
     try {
 
       Properties prop = FileParser.getPropertiesFromFile(args[0]);
       ArrayList<User> victims = FileParser.getUsersFromFile(args[1]);
       ArrayList<Message> messages = FileParser.getMessagesFromFile(args[2]);
-      ArrayList<Group> groups = generateGroups(victims, 3);
+      ArrayList<Group> groups = generateGroups(victims, Integer.parseInt(prop.getProperty("nbgroups")));
       ArrayList<Mail> mails = generateMails(groups, messages);
 
-      Socket client = new Socket(prop.getProperty("host"), Integer.parseInt(prop.getProperty("port")));
+      smtpSocket =
+          new SMTPSocket(prop.getProperty("host"), Integer.parseInt(prop.getProperty("port")));
 
-      for (Mail m : mails)
-      {
-        //m.send(client);
+      smtpSocket.connect();
+      ArrayList<SMTPCode> codes = smtpSocket.readCodes();
+      if (codes.get(codes.size() - 1).getCode() != 250) {
+        System.err.println("Unable to read extensions !");
       }
 
-      client.close();
+      for (Mail m : mails) {
+        smtpSocket.send(m);
+      }
+
+      smtpSocket.quit();
 
     } catch (Exception e) {
-      System.err.println(e.getMessage());
+      System.err.println("Error : " + e.getMessage());
+    } finally {
+      if (smtpSocket != null) {
+        try {
+          smtpSocket.close();
+        } catch (IOException ignored) {
+        }
+      }
     }
   }
 
@@ -51,33 +65,32 @@ public class PrankGenerator {
   }
 
   private static ArrayList<Group> generateGroups(ArrayList<User> victims, int nbGroups) {
-    if (nbGroups <= 0) throw new RuntimeException("The number of groups must be greater than zéro.");
+    if (nbGroups <= 0)
+      throw new RuntimeException("The number of groups must be greater than zéro.");
 
     ArrayList<Group> groups = new ArrayList<>(nbGroups);
+    for (int i = 0; i < nbGroups; ++i)
+      groups.add(new Group());
 
     int nbVictimsPerGroup = victims.size() / nbGroups;
     if (nbVictimsPerGroup < 3) throw new RuntimeException("Not enough victims !");
 
     final int shift = random.nextInt();
 
-    for (int i = 0; i < victims.size(); ++i)
-    {
-      Group group = groups.get(i % nbGroups);
+    for (int i = 0; i < victims.size(); ++i) {
+      Group group = groups.get((i + 1) % nbGroups);
       User user = victims.get((i + shift) % victims.size());
-      if (group.getSender() == null)
-        group.setSender(user);
-      else
-        group.addRecipient(user);
+      if (group.getSender() == null) group.setSender(user);
+      else group.addRecipient(user);
     }
     return groups;
   }
 
-  private static ArrayList<Mail> generateMails(ArrayList<Group> groups, ArrayList<Message> messages)
-  {
+  private static ArrayList<Mail> generateMails(
+      ArrayList<Group> groups, ArrayList<Message> messages) {
     ArrayList<Mail> mails = new ArrayList<>(groups.size());
     final int shift = random.nextInt();
-    for (int i = 0; i < groups.size(); ++i)
-    {
+    for (int i = 0; i < groups.size(); ++i) {
       mails.add(new Mail(groups.get(i), messages.get((i + shift) % messages.size())));
     }
     return mails;
