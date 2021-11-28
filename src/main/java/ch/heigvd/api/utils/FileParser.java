@@ -21,6 +21,8 @@ public class FileParser {
 
             String rawContent = scanner.next();
             int indexEndSubject = rawContent.indexOf(CRLF);
+            if (indexEndSubject == -1)
+                indexEndSubject = rawContent.indexOf(LF);
 
             String subject = rawContent.substring(0, indexEndSubject).trim();
             String body = rawContent.substring(indexEndSubject + CRLF.length()).trim();
@@ -61,7 +63,8 @@ public class FileParser {
             ioe.printStackTrace();
         }
         finally {
-            fins.close();
+            if (fins != null)
+                fins.close();
         }
 
         return prop;
