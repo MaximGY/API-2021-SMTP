@@ -52,18 +52,6 @@ public class PrankGenerator {
     }
   }
 
-  private static void sendMail(Socket client, Mail mail) throws IOException {
-    if (client == null) throw new IllegalArgumentException("Client socket is null !");
-
-    String msg = "";
-
-    var in =
-        new BufferedReader(new InputStreamReader(client.getInputStream(), StandardCharsets.UTF_8));
-    var out =
-        new BufferedWriter(
-            new OutputStreamWriter(client.getOutputStream(), StandardCharsets.UTF_8));
-  }
-
   private static ArrayList<Group> generateGroups(ArrayList<User> victims, int nbGroups) {
     if (nbGroups <= 0)
       throw new RuntimeException("The number of groups must be greater than zéro.");
