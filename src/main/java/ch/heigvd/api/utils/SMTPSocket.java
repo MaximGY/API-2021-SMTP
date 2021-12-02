@@ -31,9 +31,9 @@ public class SMTPSocket {
     boolean end = false;
     while (!end) {
       line = in.readLine();;
-      String[] code = line.split("-");
+      String[] code = line.split("-", 2);
       if (code.length != 2) {
-        code = line.split(" ");
+        code = line.split(" ", 2);
         end = true;
       }
       codes.add(new SMTPCode(Integer.parseInt(code[0]), code[1]));
