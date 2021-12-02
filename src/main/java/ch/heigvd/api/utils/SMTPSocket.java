@@ -66,18 +66,18 @@ public class SMTPSocket {
     StringBuilder sb = new StringBuilder();
 
     // Mail sender
-    sb.append("MAIL FROM: <").append(group.getSender().getEMailAddress()).append('>').append(CRLF);
+    sb.append("MAIL FROM: ").append(group.getSender().getEMailAddress()).append(CRLF);
 
     // Mail recipients
     for (User rec : mail.getGroup().getRecipients())
-      sb.append("RCPT TO: <").append(rec.getEMailAddress()).append('>').append(CRLF);
+      sb.append("RCPT TO: ").append(rec.getEMailAddress()).append(CRLF);
 
-    sb.append("DATA").append(CRLF).append(message.getBody());
+    sb.append("DATA").append(CRLF);
     sb.append("From: ").append(group.getSender().getEMailAddress()).append(CRLF);
     sb.append("To: ");
     for (int i = 0; i < mail.getGroup().getRecipients().size(); ++i) {
       if (i != 0) sb.append(", ");
-      sb.append("To: ").append(mail.getGroup().getRecipients().get(i).getEMailAddress());
+      sb.append(mail.getGroup().getRecipients().get(i).getEMailAddress());
     }
     sb.append(CRLF);
 
