@@ -31,7 +31,8 @@ interface web, les mails envoyés au serveur.
 Tous les fichiers de configuration se trouvent dans le dossier `config\` à la racine du projet.
 On y retrouve 3 fichiers, dont
 
-- messages.utf8 : Contient la pool de messages que l'application peut envoyer, séparés par `<CRLF>==<CRLF>`
+- messages.utf8 : Contient la pool de messages que l'application peut envoyer, séparés par `==`.
+  Chaque message doit commencer par `Subject: xxx<CRLF><CRLF>`, où `xxx` est le sujet de l'email.
 - victims.utf8 : Contient la liste des emails des victimes, séparés par `<CRLF>`
 - settings.properties : Contient les autres paramètres de l'application sous forme de paires `clé=valeur`, à savoir
   - host : Le serveur SMTP à viser
