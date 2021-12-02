@@ -1,21 +1,19 @@
 package ch.heigvd.api.utils;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 
 public class SMTPSocket {
 
-  public static final String LF = "\n";
-  public static final String CRLF = "\r\n";
+  private static final String LF = "\n";
+  private static final String CRLF = "\r\n";
 
-  private Socket socket;
-  private String host;
-  private BufferedReader in;
-  private BufferedWriter out;
+  private final Socket socket;
+  private final String host;
+  private final BufferedReader in;
+  private final BufferedWriter out;
 
   public SMTPSocket(String host, int port) throws IOException {
     socket = new Socket(host, port);
@@ -28,10 +26,11 @@ public class SMTPSocket {
 
   public ArrayList<SMTPCode> readCodes() throws IOException, NumberFormatException {
     ArrayList<SMTPCode> codes = new ArrayList<>();
+
     String line;
     boolean end = false;
     while (!end) {
-      line = in.readLine();
+      line = in.readLine();;
       String[] code = line.split("-");
       if (code.length != 2) {
         code = line.split(" ");
@@ -43,15 +42,18 @@ public class SMTPSocket {
   }
 
   public void connect() throws IOException {
-    out.write("EHLO " + host);
+    out.write("EHLO " + host + CRLF);
+    out.flush();
   }
 
   public void send(Mail mail) throws IOException {
     out.write(getSMTPString(mail));
+    out.flush();
   }
 
   public void quit() throws IOException {
-    out.write("quit");
+    out.write("quit" + CRLF);
+    out.flush();
   }
 
   public void close() throws IOException {
@@ -69,21 +71,21 @@ public class SMTPSocket {
     sb.append("MAIL FROM: ").append(group.getSender().getEMailAddress()).append(CRLF);
 
     // Mail recipients
-    for (User rec : mail.getGroup().getRecipients())
+    for (User rec : group.getRecipients())
       sb.append("RCPT TO: ").append(rec.getEMailAddress()).append(CRLF);
 
     sb.append("DATA").append(CRLF);
     sb.append("From: ").append(group.getSender().getEMailAddress()).append(CRLF);
     sb.append("To: ");
-    for (int i = 0; i < mail.getGroup().getRecipients().size(); ++i) {
+    for (int i = 0; i < group.getRecipients().size(); ++i) {
       if (i != 0) sb.append(", ");
-      sb.append(mail.getGroup().getRecipients().get(i).getEMailAddress());
+      sb.append(group.getRecipients().get(i).getEMailAddress());
     }
     sb.append(CRLF);
 
-    sb.append("Subject: ").append(mail.getMessage().getSubject()).append(CRLF);
+    sb.append("Subject: ").append(message.getSubject()).append(CRLF);
     // Replace end of mail sequence inside the body by LF instead of CRLF
-    sb.append(mail.getMessage().getBody().replace(CRLF + "." + CRLF, LF + "." + LF));
+    sb.append(message.getBody().replace(CRLF + "." + CRLF, LF + "." + LF));
 
     // End of mail
     sb.append(CRLF).append('.').append(CRLF);
