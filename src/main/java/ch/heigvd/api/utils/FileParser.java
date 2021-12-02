@@ -41,7 +41,7 @@ public class FileParser {
         while (reader.ready()) {
             line = reader.readLine();
             if (!line.matches("(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$)"))
-                throw new RuntimeException(line + "is an invalid email !");
+                throw new RuntimeException(line + " is an invalid email !");
             victims.add(new User(line));
         }
         return victims;
