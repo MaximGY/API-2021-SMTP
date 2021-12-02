@@ -83,7 +83,7 @@ public class SMTPSocket {
     }
     sb.append(CRLF);
 
-    sb.append("Subject: ").append(message.getSubject()).append(CRLF);
+    sb.append(message.getSubject()).append(CRLF).append(CRLF);
     // Replace end of mail sequence inside the body by LF instead of CRLF
     sb.append(message.getBody().replace(CRLF + "." + CRLF, LF + "." + LF));
 
