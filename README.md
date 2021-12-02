@@ -2,12 +2,14 @@ API-2021-SMTP: Lucien Perregaux, Maxim Golay
 --------------------------------------------
 
 ### Brief
+
 Ce projet a pour but d'envoyer une campagne de plaisanteries par mail.
 L'application est écrite en Java et ets entièrement paramètrable via les fichiers de configs qu'elle offre.
 L'application propose aussi un serveur bidon, utilisant Docker, pour voir le résultat de son exécution.
 
 
 ### Installation du serveur bidon
+
 L'installation du serveur bidon nécessite d'avoir une installation de Docker fonctionnelle au préalable.
 
 ***N.B.*** Les scripts fournis sont utilisables directement depuis *Linux* & *MacOS*.  
@@ -23,6 +25,7 @@ Une fois le serveur fonctionnel, les ports 25 et 8282 sont ouverts. Ils permette
 respectivement d'intéragir avec le serveur via le protocole SMTP et voir, sur une
 interface web, les mails envoyés au serveur.
 
+
 ### Configuration de l'application
 
 Tous les fichiers de configuration se trouvent dans le dossier `config\` à la racine du projet.
@@ -34,6 +37,7 @@ On y retrouve 3 fichiers, dont
   - host : Le serveur SMTP à viser
   - port : Le port du serveur SMTP, `25` en règle générale
   - nbgroups : Le nombre de groupes de mail à faire
+
 
 ### Fonctionnement
 
