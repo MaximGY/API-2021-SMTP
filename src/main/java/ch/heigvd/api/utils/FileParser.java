@@ -19,7 +19,7 @@ public class FileParser {
 
         while (scanner.hasNext()) {
 
-            String rawContent = scanner.next();
+            String rawContent = scanner.next().trim();
             int indexEndSubject = rawContent.indexOf(CRLF);
             if (indexEndSubject == -1)
                 indexEndSubject = rawContent.indexOf(LF);
