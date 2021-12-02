@@ -1,63 +1,52 @@
-# API-2021-SMTP
+API-2021-SMTP: Lucien Perregaux, Maxim Golay
+--------------------------------------------
 
-⚠️ Please clone [our own fork of MockMock server](https://github.com/HEIGVD-Course-API/MockMock) instead of the official one, because we resolved an issues with a dependency (see this [pull request](https://github.com/tweakers/MockMock/pull/8) if you want to have more information).
+### Brief
 
-## Objectives
-
-In this lab, you will develop a client application (TCP) in Java. This client application will use the Socket API to communicate with an SMTP server. The code that you write will include a **partial implementation of the SMTP protocol**. These are the objectives of the lab:
-
-* Make practical experiments to become familiar with the **SMTP protocol**. After the lab, you should be able to use a command line tool to **communicate with an SMTP server**. You should be able to send well-formed messages to the server, in order to send emails to the address of your choice.
-
-* Understand the notions of **test double** and **mock server**, which are useful when developing and testing a client-server application. During the lab, you will setup and use such a **mock server**.
-
-* Understand what it means to **implement the SMTP protocol** and be able to send e-mail messages, by working directly on top of the Socket API (i.e. you are not allowed to use a SMTP library).
-
-* **See how easy it is to send forged e-mails**, which appear to be sent by certain people but in reality are issued by malicious users.
-
-* **Design a simple object-oriented model** to implement the functional requirements described in the next paragraph.
+Ce projet a pour but d'envoyer une campagne de plaisanteries par mail.
+L'application est écrite en Java et ets entièrement paramètrable via les fichiers de configs qu'elle offre.
+L'application propose aussi un serveur bidon, utilisant Docker, pour voir le résultat de son exécution.
 
 
-## Functional requirements
+### Installation du serveur bidon
 
-Your mission is to develop a client application that automatically plays pranks on a list of victims:
+L'installation du serveur bidon nécessite d'avoir une installation de Docker fonctionnelle au préalable.
 
-* The user should be able to **define a list of victims** (concretely, you should be able to create a file containing a list of e-mail addresses).
-* The user should be able to **define how many groups of victims should be formed** in a given campaign. In every group of victims, there should be 1 sender and at least 2 recipients (i.e. the minimum size for a group is 3).
-* The user should be able to **define a list of e-mail messages**. When a prank is played on a group of victims, then one of these messages should be selected. **The mail should be sent to all group recipients, from the address of the group sender**. In other words, the recipient victims should be lead to believe that the sender victim has sent them.
+***N.B.*** Les scripts fournis sont utilisables directement depuis *Linux* & *MacOS*.  
+Pour Windows, veuillez utiliser une couche de compatibilité Linux (tel que *MSYS*) ou utiliser *Docker for WSL*
 
-## Constraints
+Pour installer le serveur,  
 
-- The goal is for you to work at the wire protocol level (with the Socket API). Therefore, you CANNOT use a library that takes care of the protocol details. You have to work with the input and output streams.
-- The program must be configurable: the addresses, groups, messages CANNOT be hard-coded in the program and MUST be managed in config files.
+1. Naviguer jusqu'au dossier `docker\` à la racine du projet.
+2. Lancer le script `build-image.sh` qui va construire l'image Docker du serveur.     
+3. Lancer le script `run-container.sh` qui va créer une nouvelle instance de l'image.
+
+Une fois le serveur fonctionnel, les ports 25 et 8282 sont ouverts. Ils permettent
+respectivement d'intéragir avec le serveur via le protocole SMTP et voir, sur une
+interface web, les mails envoyés au serveur.
 
 
-## Example
+### Configuration de l'application
 
-Consider that your program generates a group G1. The group sender is Bob. The group recipients are Alice, Claire and Peter. When the prank is played on group G1, then your program should pick one of the fake messages. It should communicate with an SMTP server, so that Alice, Claire and Peter receive an e-mail, which appears to be sent by Bob.
+Tous les fichiers de configuration se trouvent dans le dossier `config\` à la racine du projet.
+On y retrouve 3 fichiers, dont
 
-## Teams
+- messages.utf8 : Contient la pool de messages que l'application peut envoyer, séparés par `<CRLF>==<CRLF>`
+- victims.utf8 : Contient la liste des emails des victimes, séparés par `<CRLF>`
+- settings.properties : Contient les autres paramètres de l'application sous forme de paires `clé=valeur`, à savoir
+  - host : Le serveur SMTP à viser
+  - port : Le port du serveur SMTP, `25` en règle générale
+  - nbgroups : Le nombre de groupes de mail à faire
 
-You may work in teams of 2 students.
 
-## Deliverables
+### Fonctionnement
 
-You will deliver the results of your lab in a GitHub repository. You do not have to fork a specific repo, you can create one from scratch.
+L'application commence par s'assurer qu'il y a au moins 3 fois plus de victimes que de *nbgroups*,
+c.à.d. que chaque groupe est au moins constitué de 3 membres.
 
-Your repository should contain both the source code of your Java project and your report. Your report should be a single `README.md` file, located at the root of your repository. The images should be placed in a `figures` directory.
+L'application choisit ensuite parmi la liste des victimes *nbgroups* adresses mails qui seront les *envoyeurs*.
+Elle constitue ensuite des groupes aléatoires qui sont des partitions des victimes, c.à.d. qu'une victime
+n'apparait **qu'une et une seule fois** dans **un et un seul groupe** par campagne.
 
-Your report MUST include the following sections:
-
-* **A brief description of your project**: if people exploring GitHub find your repo, without a prior knowledge of the API course, they should be able to understand what your repo is all about and whether they should look at it more closely.
-
-* **Instructions for setting up a mock SMTP server (with Docker - which you will learn all about in the next 2 weeks)**. The user who wants to experiment with your tool but does not really want to send pranks immediately should be able to use a mock SMTP server. For people who are not familiar with this concept, explain it to them in simple terms. Explain which mock server you have used and how you have set it up.
-
-* **Clear and simple instructions for configuring your tool and running a prank campaign**. If you do a good job, an external user should be able to clone your repo, edit a couple of files and send a batch of e-mails in less than 10 minutes.
-
-* **A description of your implementation**: document the key aspects of your code. It is probably a good idea to start with a class diagram. Decide which classes you want to show (focus on the important ones) and describe their responsibilities in text. It is also certainly a good idea to include examples of dialogues between your client and an SMTP server (maybe you also want to include some screenshots here).
-
-## References
-
-* [Here is our fork of MockMock server](https://github.com/HEIGVD-Course-API/MockMock), in which we resolved an issues with a dependency (see this [pull request](https://github.com/tweakers/MockMock/pull/8) if you want to have more information).
-* The [mailtrap](<https://mailtrap.io/>) online service for testing SMTP
-* The [SMTP RFC](<https://tools.ietf.org/html/rfc5321#appendix-D>), and in particular the [example scenario](<https://tools.ietf.org/html/rfc5321#appendix-D>)
-* Testing SMTP with TLS: `openssl s_client -connect smtp.mailtrap.io:2525 -starttls smtp -crlf`
+Enfin, chaque *envoyeur* envoie un mail à un *groupe* différent. Dans le header du mail, le champ `Sender: `
+utilisera l'email de l'envoyeur, usurpant ainsi son identité.
