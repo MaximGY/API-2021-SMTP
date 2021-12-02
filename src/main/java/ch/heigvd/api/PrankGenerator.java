@@ -22,17 +22,19 @@ public class PrankGenerator {
       Properties prop = FileParser.getPropertiesFromFile(args[0]);
       ArrayList<User> victims = FileParser.getUsersFromFile(args[1]);
       ArrayList<Message> messages = FileParser.getMessagesFromFile(args[2]);
-      ArrayList<Group> groups = generateGroups(victims, Integer.parseInt(prop.getProperty("nbgroups")));
+      ArrayList<Group> groups =
+          generateGroups(victims, Integer.parseInt(prop.getProperty("nbgroups")));
       ArrayList<Mail> mails = generateMails(groups, messages);
 
       smtpSocket =
           new SMTPSocket(prop.getProperty("host"), Integer.parseInt(prop.getProperty("port")));
 
+      smtpSocket.readCodes();
       smtpSocket.connect();
-      ArrayList<SMTPCode> codes = smtpSocket.readCodes();
-      if (codes.get(codes.size() - 1).getCode() != 250) {
-        System.err.println("Unable to read extensions !");
-      }
+      codes = smtpSocket.readCodes();
+
+      if (codes.get(codes.size() - 1).getCode() != 250)
+        throw new Exception("Unable to read extensions !");
 
       for (Mail m : mails) {
         smtpSocket.send(m);
@@ -57,16 +59,17 @@ public class PrankGenerator {
       throw new RuntimeException("The number of groups must be greater than zéro.");
 
     ArrayList<Group> groups = new ArrayList<>(nbGroups);
-    for (int i = 0; i < nbGroups; ++i)
-      groups.add(new Group());
+    for (int i = 0; i < nbGroups; ++i) groups.add(new Group());
 
     int nbVictimsPerGroup = victims.size() / nbGroups;
     if (nbVictimsPerGroup < 3) throw new RuntimeException("Not enough victims !");
 
-    final int shift = random.nextInt();
+    final int shift = random.nextInt(victims.size());
 
     for (int i = 0; i < victims.size(); ++i) {
+      // Séléctionne un groupe séquentiellement.
       Group group = groups.get((i + 1) % nbGroups);
+      // On prend un utilisateur au hasard et on le rajoute au groupe.
       User user = victims.get((i + shift) % victims.size());
       if (group.getSender() == null) group.setSender(user);
       else group.addRecipient(user);
