@@ -9,6 +9,7 @@ import java.util.*;
 
 public class PrankGenerator {
   static final Random random = new Random();
+  static final boolean DEBUG = true;
 
   public static void main(String[] args) {
     if (args.length != 3) {
@@ -16,6 +17,7 @@ public class PrankGenerator {
       return;
     }
     SMTPSocket smtpSocket = null;
+    ArrayList<SMTPCode> codes;
 
     try {
 
@@ -85,5 +87,11 @@ public class PrankGenerator {
       mails.add(new Mail(groups.get(i), messages.get((i + shift) % messages.size())));
     }
     return mails;
+  }
+
+  private static void debugCodes(ArrayList<SMTPCode> codes) {
+    if (DEBUG) {
+      for (SMTPCode c : codes) System.out.println("DEBUG: " + c);
+    }
   }
 }
