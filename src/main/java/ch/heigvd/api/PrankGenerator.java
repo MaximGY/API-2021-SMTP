@@ -85,7 +85,7 @@ public class PrankGenerator {
   private static ArrayList<Mail> generateMails(
       ArrayList<Group> groups, ArrayList<Message> messages) {
     ArrayList<Mail> mails = new ArrayList<>(groups.size());
-    final int shift = random.nextInt();
+    final int shift = random.nextInt(messages.size());
     for (int i = 0; i < groups.size(); ++i) {
       mails.add(new Mail(groups.get(i), messages.get((i + shift) % messages.size())));
     }
