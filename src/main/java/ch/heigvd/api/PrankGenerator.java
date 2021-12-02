@@ -9,7 +9,6 @@ import java.util.*;
 
 public class PrankGenerator {
   static final Random random = new Random();
-  static final boolean DEBUG = true;
 
   public static void main(String[] args) {
     if (args.length != 3) {
@@ -31,15 +30,19 @@ public class PrankGenerator {
       smtpSocket =
           new SMTPSocket(prop.getProperty("host"), Integer.parseInt(prop.getProperty("port")));
 
-      smtpSocket.readCodes();
+      codes = smtpSocket.readCodes();
+      printCodes(codes);
       smtpSocket.connect();
       codes = smtpSocket.readCodes();
+      printCodes(codes);
 
       if (codes.get(codes.size() - 1).getCode() != 250)
         throw new Exception("Unable to read extensions !");
 
       for (Mail m : mails) {
         smtpSocket.send(m);
+        codes = smtpSocket.readCodes();
+        printCodes(codes);
       }
 
       smtpSocket.quit();
@@ -89,9 +92,8 @@ public class PrankGenerator {
     return mails;
   }
 
-  private static void debugCodes(ArrayList<SMTPCode> codes) {
-    if (DEBUG) {
-      for (SMTPCode c : codes) System.out.println("DEBUG: " + c);
-    }
+  private static void printCodes(ArrayList<SMTPCode> codes) {
+      for (SMTPCode c : codes)
+        System.out.println(c);
   }
 }
