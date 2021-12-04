@@ -68,11 +68,11 @@ public class SMTPSocket {
     StringBuilder sb = new StringBuilder();
 
     // Mail sender
-    sb.append("MAIL FROM: ").append(group.getSender().getEMailAddress()).append(CRLF);
+    sb.append("MAIL FROM: ").append("<").append(group.getSender().getEMailAddress()).append(">").append(CRLF);
 
     // Mail recipients
     for (User rec : group.getRecipients())
-      sb.append("RCPT TO: ").append(rec.getEMailAddress()).append(CRLF);
+      sb.append("RCPT TO: ").append("<").append(rec.getEMailAddress()).append(">").append(CRLF);
 
     sb.append("DATA").append(CRLF);
     sb.append("From: ").append(group.getSender().getEMailAddress()).append(CRLF);
