@@ -53,7 +53,7 @@ public class SMTPSocket {
   }
 
   public void quit() throws IOException {
-    out.write("quit" + CRLF);
+    out.write("QUIT" + CRLF);
     out.flush();
   }
 
@@ -86,11 +86,13 @@ public class SMTPSocket {
       if (i != 0) sb.append(", ");
       sb.append(group.getRecipients().get(i).getEMailAddress());
     }
-    sb.append(CRLF);
+    sb.append(CRLF); // End of "To:"
 
-    sb.append(message.getSubject()).append(CRLF).append(CRLF);
-    // Replace end of mail sequence inside the body by LF instead of CRLF
-    sb.append(message.getBody().replace(CRLF + "." + CRLF, LF + "." + LF));
+    sb.append("Content-Type: text/plain; charset=utf-8").append(CRLF); // Set encoding to UTF-8
+
+    sb.append("Subject: =?UTF-8?B?").append(message.getBase64Subject()).append("?=").append(CRLF).append(CRLF);
+    // Prevent unexpected ending if a message contrains the sequence "<CRLF>.<CRLF>"
+    sb.append(message.getBody().replace(CRLF, LF));
 
     // End of mail
     sb.append(CRLF).append('.').append(CRLF);

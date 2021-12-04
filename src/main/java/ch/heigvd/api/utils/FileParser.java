@@ -20,10 +20,10 @@ public class FileParser {
     while (scanner.hasNext()) {
 
       String rawContent = scanner.next().trim();
-      int indexEndSubject = rawContent.indexOf(CRLF);
-      if (indexEndSubject == -1) indexEndSubject = rawContent.indexOf(LF);
+      int indexEndSubject = rawContent.indexOf(LF);
+      if (indexEndSubject == -1) indexEndSubject = rawContent.indexOf(CRLF);
 
-      String subject = rawContent.substring(0, indexEndSubject).trim();
+      String subject = rawContent.substring(0, indexEndSubject).replace("Subject: ", "").trim();
       String body = rawContent.substring(indexEndSubject + CRLF.length()).trim();
 
       messages.add(new Message(subject, body));
