@@ -16,4 +16,9 @@ public class Mail {
   public Message getMessage() {
     return message;
   }
+
+  @Override
+  public String toString() {
+    return "Mail{" + "group=" + group + ", message=" + message + '}';
+  }
 }

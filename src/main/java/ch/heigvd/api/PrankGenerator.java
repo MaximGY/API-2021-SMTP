@@ -42,6 +42,7 @@ public class PrankGenerator {
       for (Mail m : mails) {
         smtpSocket.send(m);
         codes = smtpSocket.readCodes();
+        System.out.println("Mail sent: " + m);
         printCodes(codes);
       }
 
@@ -93,7 +94,6 @@ public class PrankGenerator {
   }
 
   private static void printCodes(ArrayList<SMTPCode> codes) {
-      for (SMTPCode c : codes)
-        System.out.println(c);
+    for (SMTPCode c : codes) System.out.println(c);
   }
 }

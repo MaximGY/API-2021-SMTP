@@ -31,4 +31,9 @@ public class Group {
   public void addRecipient(User recipient) {
     recipients.add(recipient);
   }
+
+  @Override
+  public String toString() {
+    return "Group{" + "sender=" + sender + ", recipients=" + recipients + '}';
+  }
 }
