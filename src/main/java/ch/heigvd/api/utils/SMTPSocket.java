@@ -30,7 +30,8 @@ public class SMTPSocket {
     String line;
     boolean end = false;
     while (!end) {
-      line = in.readLine();;
+      line = in.readLine();
+      ;
       String[] code = line.split("-", 2);
       if (code.length != 2) {
         code = line.split(" ", 2);
@@ -68,7 +69,11 @@ public class SMTPSocket {
     StringBuilder sb = new StringBuilder();
 
     // Mail sender
-    sb.append("MAIL FROM: ").append("<").append(group.getSender().getEMailAddress()).append(">").append(CRLF);
+    sb.append("MAIL FROM: ")
+        .append("<")
+        .append(group.getSender().getEMailAddress())
+        .append(">")
+        .append(CRLF);
 
     // Mail recipients
     for (User rec : group.getRecipients())

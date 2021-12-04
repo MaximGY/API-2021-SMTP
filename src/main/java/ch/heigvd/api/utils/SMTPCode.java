@@ -1,24 +1,24 @@
 package ch.heigvd.api.utils;
 
 public class SMTPCode {
-    private final int code;
-    private final String value;
+  private final int code;
+  private final String value;
 
-    public SMTPCode(int code, String value) {
-        this.code = code;
-        this.value = value;
-    }
+  public SMTPCode(int code, String value) {
+    this.code = code;
+    this.value = value;
+  }
 
-    public int getCode() {
-        return code;
-    }
+  public int getCode() {
+    return code;
+  }
 
-    public String getValue() {
-        return value;
-    }
+  public String getValue() {
+    return value;
+  }
 
-    @Override
-    public String toString() {
-        return code + " " + value;
-    }
+  @Override
+  public String toString() {
+    return code + " " + value;
+  }
 }
