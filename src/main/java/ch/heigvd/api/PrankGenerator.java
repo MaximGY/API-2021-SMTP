@@ -3,8 +3,6 @@ package ch.heigvd.api;
 import ch.heigvd.api.utils.*;
 
 import java.io.*;
-import java.net.*;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class PrankGenerator {
