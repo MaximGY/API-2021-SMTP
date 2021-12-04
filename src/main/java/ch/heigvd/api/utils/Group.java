@@ -5,13 +5,13 @@ import java.util.ArrayList;
 public class Group {
 
   private User sender;
-  private ArrayList<User> recipients;
+  private final ArrayList<User> recipients;
 
   public Group() {
     recipients = new ArrayList<>();
   }
 
-  Group(User sender, ArrayList<User> recipients) {
+  public Group(User sender, ArrayList<User> recipients) {
     this.sender = sender;
     this.recipients = recipients;
   }

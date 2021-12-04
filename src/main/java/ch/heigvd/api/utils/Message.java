@@ -5,7 +5,7 @@ public class Message {
   private final String subject;
   private final String body;
 
-  Message(String subject, String body) {
+  public Message(String subject, String body) {
     this.subject = subject;
     this.body = body;
   }
