@@ -13,21 +13,29 @@ public class PrankGenerator {
       System.err.println("Usage: ./main {settings.properties} {victims.utf8} {messages.utf8}");
       return;
     }
-    SMTPSocket smtpSocket = null;
-    ArrayList<SMTPCode> codes;
+
+    Properties prop;
+    ArrayList<User> victims;
+    ArrayList<Message> messages;
 
     try {
+      prop = FileParser.getPropertiesFromFile(args[0]);
+      victims = FileParser.getUsersFromFile(args[1]);
+      messages = FileParser.getMessagesFromFile(args[2]);
 
-      Properties prop = FileParser.getPropertiesFromFile(args[0]);
-      ArrayList<User> victims = FileParser.getUsersFromFile(args[1]);
-      ArrayList<Message> messages = FileParser.getMessagesFromFile(args[2]);
-      ArrayList<Group> groups =
-          generateGroups(victims, Integer.parseInt(prop.getProperty("nbgroups")));
-      ArrayList<Mail> mails = generateMails(groups, messages);
+    } catch (IOException e) {
+      System.err.println(e.getMessage());
+      return;
+    }
 
-      smtpSocket =
-          new SMTPSocket(prop.getProperty("host"), Integer.parseInt(prop.getProperty("port")));
+    ArrayList<Group> groups =
+        generateGroups(victims, Integer.parseInt(prop.getProperty("nbgroups")));
+    ArrayList<Mail> mails = generateMails(groups, messages);
 
+    ArrayList<SMTPCode> codes;
+
+    try (SMTPSocket smtpSocket =
+        new SMTPSocket(prop.getProperty("host"), Integer.parseInt(prop.getProperty("port")))) {
       codes = smtpSocket.readCodes();
       printCodes(codes);
       smtpSocket.connect();
@@ -48,13 +56,6 @@ public class PrankGenerator {
 
     } catch (Exception e) {
       System.err.println("Error : " + e.getMessage());
-    } finally {
-      if (smtpSocket != null) {
-        try {
-          smtpSocket.close();
-        } catch (IOException ignored) {
-        }
-      }
     }
   }
 

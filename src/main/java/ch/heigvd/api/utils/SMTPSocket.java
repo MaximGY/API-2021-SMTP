@@ -7,7 +7,7 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-public class SMTPSocket {
+public class SMTPSocket implements Closeable {
 
   private static final String LF = "\n";
   private static final String CRLF = "\r\n";
@@ -33,7 +33,6 @@ public class SMTPSocket {
     boolean end = false;
     while (!end) {
       line = in.readLine();
-      ;
       String[] code = line.split("-", 2);
       if (code.length != 2) {
         code = line.split(" ", 2);
