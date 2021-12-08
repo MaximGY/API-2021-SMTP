@@ -38,12 +38,8 @@ public class FileParser {
     ArrayList<User> victims = new ArrayList<>();
 
     var reader = new BufferedReader(new FileReader(filename, StandardCharsets.UTF_8));
-    String line;
     while (reader.ready()) {
-      line = reader.readLine();
-      if (!line.matches("(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$)"))
-        throw new RuntimeException(line + " is an invalid email !");
-      victims.add(new User(line));
+      victims.add(new User(reader.readLine()));
     }
     reader.close();
     return victims;
