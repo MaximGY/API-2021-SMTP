@@ -7,6 +7,9 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
+/**
+ * Represents a connection to a SMTP server.
+ */
 public class SMTPSocket {
 
   private static final String LF = "\n";
@@ -17,6 +20,13 @@ public class SMTPSocket {
   private final BufferedReader in;
   private final BufferedWriter out;
 
+  /**
+   * Creates a new connection to a SMTP server.
+   *
+   * @param host The address of the server.
+   * @param port The port of the server.
+   * @throws IOException If errors occurs when opening the socket.
+   */
   public SMTPSocket(@NotNull String host, int port) throws IOException {
     socket = new Socket(host, port);
     this.host = host;
@@ -26,6 +36,13 @@ public class SMTPSocket {
     in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
   }
 
+  /**
+   * Parses all received codes from the server as SMTPCodes.
+   *
+   * @return An ArrayList of SMTPCodes send back by the sever.
+   * @throws IOException If an error occurs while reading the answer.
+   * @throws NumberFormatException If the code send back by the server makes no sense.
+   */
   public ArrayList<SMTPCode> readCodes() throws IOException, NumberFormatException {
     ArrayList<SMTPCode> codes = new ArrayList<>();
 
@@ -44,25 +61,52 @@ public class SMTPSocket {
     return codes;
   }
 
+  /**
+   * Opens the connection to the server.
+   *
+   * @throws IOException If something went wrong.
+   */
   public void connect() throws IOException {
     out.write("EHLO " + host + CRLF);
     out.flush();
   }
 
+  /**
+   * Send the given Mail to the server.
+   *
+   * @param mail The Mail to send to the server.
+   * @throws IOException If something went wrong.
+   */
   public void send(Mail mail) throws IOException {
     out.write(getSMTPString(mail));
     out.flush();
   }
 
+  /**
+   * Terminates the communication with the server protocole-wise.
+   *
+   * @throws IOException If something went wrong.
+   */
   public void quit() throws IOException {
     out.write("QUIT" + CRLF);
     out.flush();
   }
 
+  /**
+   * Closes the underlying socket.
+   *
+   * @throws IOException If something went wrong.
+   */
   public void close() throws IOException {
     socket.close();
   }
 
+  /**
+   * Wraps the Mail with its required SMTP commands.
+   *
+   * @param mail The Mail to prepare for sending.
+   * @return A String containing the SMTP command to give to the server.
+   */
   private String getSMTPString(@NotNull Mail mail) {
     Group group = mail.getGroup();
     Message message = mail.getMessage();
