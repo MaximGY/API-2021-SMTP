@@ -60,7 +60,7 @@ public class PrankGenerator {
 
   private static ArrayList<Group> generateGroups(ArrayList<User> victims, int nbGroups) {
     if (nbGroups <= 0)
-      throw new RuntimeException("The number of groups must be greater than zéro.");
+      throw new RuntimeException("The number of groups must be greater than zero.");
 
     int nbVictimsPerGroup = victims.size() / nbGroups;
     if (nbVictimsPerGroup < 3) throw new RuntimeException("Not enough victims !");
