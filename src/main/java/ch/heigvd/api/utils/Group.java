@@ -6,14 +6,11 @@ import java.util.ArrayList;
 
 public class Group {
 
-  private User sender;
+  private final User sender;
   private final ArrayList<User> recipients;
 
-  public Group() {
-    recipients = new ArrayList<>();
-  }
-
   public Group(@NotNull User sender, @NotNull ArrayList<User> recipients) {
+    if (recipients.size() < 2) throw new IllegalArgumentException("A group must contains at least 2 recipients !");
     this.sender = sender;
     this.recipients = recipients;
   }
@@ -24,14 +21,6 @@ public class Group {
 
   public ArrayList<User> getRecipients() {
     return recipients;
-  }
-
-  public void setSender(User sender) {
-    this.sender = sender;
-  }
-
-  public void addRecipient(User recipient) {
-    recipients.add(recipient);
   }
 
   @Override

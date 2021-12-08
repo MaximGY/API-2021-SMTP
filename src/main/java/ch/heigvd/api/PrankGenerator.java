@@ -62,21 +62,24 @@ public class PrankGenerator {
     if (nbGroups <= 0)
       throw new RuntimeException("The number of groups must be greater than zéro.");
 
-    ArrayList<Group> groups = new ArrayList<>(nbGroups);
-    for (int i = 0; i < nbGroups; ++i) groups.add(new Group());
-
     int nbVictimsPerGroup = victims.size() / nbGroups;
     if (nbVictimsPerGroup < 3) throw new RuntimeException("Not enough victims !");
 
     final int shift = random.nextInt(victims.size());
 
+    ArrayList<ArrayList<User>> users = new ArrayList<>(nbGroups);
+    for (int i = 0; i < nbGroups; ++i) users.add(new ArrayList<>());
+
     for (int i = 0; i < victims.size(); ++i) {
-      // Séléctionne un groupe séquentiellement.
-      Group group = groups.get((i + 1) % nbGroups);
-      // On prend un utilisateur au hasard et on le rajoute au groupe.
+      // On prend un utilisateur au hasard et on le rajoute à la liste.
       User user = victims.get((i + shift) % victims.size());
-      if (group.getSender() == null) group.setSender(user);
-      else group.addRecipient(user);
+      users.get(i % nbGroups).add(user);
+    }
+    ArrayList<Group> groups = new ArrayList<>(nbGroups);
+    for (ArrayList<User> u : users) {
+      // On crée les groupes à l'aide des utilisateurs déjà répartis aléatoirement
+      // Pour une raison d'architecture, on fait une copie de la liste
+      groups.add(new Group(u.get(0), new ArrayList<>(u.subList(1, u.size()))));
     }
     return groups;
   }
