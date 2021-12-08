@@ -32,16 +32,17 @@ le résultat de ces requêtes.
 
 ### Configuration de l'application
 
-Tous les fichiers de configuration se trouvent dans le dossier `config` à la racine du projet.
-On y retrouve 3 fichiers, dont
+Le programme a besoin de 3 paramètres, passés par lignes de commande, qui sont les 3 fichiers mentionnés ci-dessous et dans l'ordre dans lequel ils sont mentionnés.
 
-- messages.utf8 : Contient la liste des messages que l'application peut envoyer, séparés par `==<[CR]LF>`.
+1. settings.properties : Contient les autres paramètres de l'application sous forme de paires `clé=valeur`, à savoir
+    - host : Le serveur SMTP à viser, dans le cas où le serveur bidon est mis en place, mettre `localhost`.
+    - port : Le port du serveur SMTP, `25` en règle générale.
+    - nbgroups : Le nombre de groupes de mail à faire.
+2. victims.utf8 : Contient la liste des emails des victimes, séparés par `<[CR]LF>`
+3. messages.utf8 : Contient la liste des messages que l'application peut envoyer, séparés par `==<[CR]LF>`.
   Chaque message doit commencer par `Subject: xxx<[CR]LF><[CR]LF>`, où `xxx` est le sujet de l'email.
-- victims.utf8 : Contient la liste des emails des victimes, séparés par `<[CR]LF>`
-- settings.properties : Contient les autres paramètres de l'application sous forme de paires `clé=valeur`, à savoir
-  - host : Le serveur SMTP à viser, dans le cas où le serveur bidon est mis en place, mettre `localhost`.
-  - port : Le port du serveur SMTP, `25` en règle générale.
-  - nbgroups : Le nombre de groupes de mail à faire.
+
+Un exemple de fichier de configurations se trouve dans le dossier `config` à la racine du projet.
 
 
 ### Fonctionnement
