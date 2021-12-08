@@ -7,7 +7,11 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-/** Represents a connection to a SMTP server. */
+/**
+ * Represents a connection to a SMTP server.
+ *
+ * @author Maxim Golay & Perregaux Lucien
+ */
 public class SMTPSocket implements Closeable {
 
   private static final String LF = "\n";

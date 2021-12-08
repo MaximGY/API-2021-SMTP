@@ -5,6 +5,7 @@ import ch.heigvd.api.utils.*;
 import java.io.*;
 import java.util.*;
 
+/** @author Maxim Golay & Perregaux Lucien */
 public class PrankGenerator {
   static final Random random = new Random();
 
@@ -15,7 +16,8 @@ public class PrankGenerator {
    */
   public static void main(String[] args) {
     if (args.length != 3) {
-      System.err.println("Usage: ./main {settings.properties} {victims.utf8} {messages.utf8}");
+      System.err.println(
+          "Usage: PrankGenerator {settings.properties} {victims.utf8} {messages.utf8}");
       return;
     }
 

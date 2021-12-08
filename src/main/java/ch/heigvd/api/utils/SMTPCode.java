@@ -1,5 +1,6 @@
 package ch.heigvd.api.utils;
 
+/** @author Maxim Golay & Perregaux Lucien */
 public class SMTPCode {
   private final int code;
   private final String value;

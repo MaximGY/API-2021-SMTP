@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Scanner;
 
+/** @author Maxim Golay & Perregaux Lucien */
 public class FileParser {
   private static final String MESSAGE_DELIMITER = "==";
   private static final String LF = "\n";

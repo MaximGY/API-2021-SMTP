@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
+/** @author Maxim Golay & Perregaux Lucien */
 public class Group {
 
   private final User sender;

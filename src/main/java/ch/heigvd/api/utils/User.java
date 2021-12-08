@@ -2,6 +2,7 @@ package ch.heigvd.api.utils;
 
 import org.jetbrains.annotations.NotNull;
 
+/** @author Maxim Golay & Perregaux Lucien */
 public class User {
   private final String email;
 

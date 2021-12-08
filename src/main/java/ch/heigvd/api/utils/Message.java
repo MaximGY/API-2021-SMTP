@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Base64;
 import java.nio.charset.StandardCharsets;
 
+/** @author Maxim Golay & Perregaux Lucien */
 public class Message {
 
   private final String subject;
