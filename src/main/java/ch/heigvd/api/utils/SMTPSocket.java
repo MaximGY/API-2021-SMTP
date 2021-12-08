@@ -95,6 +95,8 @@ public class SMTPSocket implements Closeable {
    * @throws IOException If something went wrong.
    */
   public void close() throws IOException {
+    in.close();
+    out.close();
     socket.close();
   }
 
