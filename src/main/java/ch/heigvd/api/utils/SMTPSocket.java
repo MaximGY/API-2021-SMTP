@@ -1,5 +1,7 @@
 package ch.heigvd.api.utils;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
@@ -15,7 +17,7 @@ public class SMTPSocket {
   private final BufferedReader in;
   private final BufferedWriter out;
 
-  public SMTPSocket(String host, int port) throws IOException {
+  public SMTPSocket(@NotNull String host, int port) throws IOException {
     socket = new Socket(host, port);
     this.host = host;
     out =
@@ -58,11 +60,10 @@ public class SMTPSocket {
   }
 
   public void close() throws IOException {
-
     socket.close();
   }
 
-  private String getSMTPString(Mail mail) {
+  private String getSMTPString(@NotNull Mail mail) {
     Group group = mail.getGroup();
     Message message = mail.getMessage();
 

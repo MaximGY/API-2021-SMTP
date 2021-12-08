@@ -1,5 +1,7 @@
 package ch.heigvd.api.utils;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Base64;
 import java.nio.charset.StandardCharsets;
 
@@ -8,7 +10,7 @@ public class Message {
   private final String subject;
   private final String body;
 
-  public Message(String subject, String body) {
+  public Message(@NotNull String subject, @NotNull String body) {
     this.subject = subject;
     this.body = body;
   }

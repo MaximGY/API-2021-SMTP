@@ -1,9 +1,12 @@
 package ch.heigvd.api.utils;
 
+import org.jetbrains.annotations.NotNull;
+
 public class User {
   private final String email;
 
-  public User(String email) {
+  public User(@NotNull String email) {
+    // TODO: Vérifier l'email ici
     this.email = email;
   }
 

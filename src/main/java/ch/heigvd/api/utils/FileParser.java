@@ -1,5 +1,7 @@
 package ch.heigvd.api.utils;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -11,7 +13,7 @@ public class FileParser {
   private static final String LF = "\n";
   private static final String CRLF = "\r\n";
 
-  public static ArrayList<Message> getMessagesFromFile(String filename) throws IOException {
+  public static ArrayList<Message> getMessagesFromFile(@NotNull String filename) throws IOException {
     ArrayList<Message> messages = new ArrayList<>();
 
     Scanner scanner = new Scanner(new FileInputStream(filename), StandardCharsets.UTF_8);
@@ -32,7 +34,7 @@ public class FileParser {
     return messages;
   }
 
-  public static ArrayList<User> getUsersFromFile(String filename) throws IOException {
+  public static ArrayList<User> getUsersFromFile(@NotNull String filename) throws IOException {
     ArrayList<User> victims = new ArrayList<>();
 
     var reader = new BufferedReader(new FileReader(filename, StandardCharsets.UTF_8));
@@ -49,7 +51,7 @@ public class FileParser {
 
   // Inspired from :
   // https://www.tutorialspoint.com/how-to-read-the-data-from-a-properties-file-in-java
-  public static Properties getPropertiesFromFile(String filename) throws IOException {
+  public static Properties getPropertiesFromFile(@NotNull String filename) throws IOException {
     FileInputStream fins = new FileInputStream(filename);
     Properties prop = new Properties();
     prop.load(fins);

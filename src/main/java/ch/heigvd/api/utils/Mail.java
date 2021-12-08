@@ -1,10 +1,12 @@
 package ch.heigvd.api.utils;
 
+import org.jetbrains.annotations.NotNull;
+
 public class Mail {
   private final Group group;
   private final Message message;
 
-  public Mail(Group group, Message message) {
+  public Mail(@NotNull Group group, @NotNull Message message) {
     this.group = group;
     this.message = message;
   }

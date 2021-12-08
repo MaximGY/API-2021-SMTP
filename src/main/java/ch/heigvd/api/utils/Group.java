@@ -1,5 +1,7 @@
 package ch.heigvd.api.utils;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 public class Group {
@@ -11,7 +13,7 @@ public class Group {
     recipients = new ArrayList<>();
   }
 
-  public Group(User sender, ArrayList<User> recipients) {
+  public Group(@NotNull User sender, @NotNull ArrayList<User> recipients) {
     this.sender = sender;
     this.recipients = recipients;
   }
