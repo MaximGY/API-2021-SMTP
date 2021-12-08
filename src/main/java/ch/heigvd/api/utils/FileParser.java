@@ -8,8 +8,8 @@ import java.util.Scanner;
 
 public class FileParser {
   private static final String MESSAGE_DELIMITER = "==";
-  public static final String LF = "\n";
-  public static final String CRLF = "\r\n";
+  private static final String LF = "\n";
+  private static final String CRLF = "\r\n";
 
   public static ArrayList<Message> getMessagesFromFile(String filename) throws IOException {
     ArrayList<Message> messages = new ArrayList<>();
@@ -28,7 +28,7 @@ public class FileParser {
 
       messages.add(new Message(subject, body));
     }
-
+    scanner.close();
     return messages;
   }
 
@@ -43,6 +43,7 @@ public class FileParser {
         throw new RuntimeException(line + " is an invalid email !");
       victims.add(new User(line));
     }
+    reader.close();
     return victims;
   }
 
