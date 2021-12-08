@@ -50,20 +50,10 @@ public class FileParser {
   // Inspired from :
   // https://www.tutorialspoint.com/how-to-read-the-data-from-a-properties-file-in-java
   public static Properties getPropertiesFromFile(String filename) throws IOException {
-
-    FileInputStream fins = null;
-    Properties prop = null;
-
-    try {
-      fins = new FileInputStream(filename);
-      prop = new Properties();
-      prop.load(fins);
-    } catch (IOException ioe) {
-      ioe.printStackTrace();
-    } finally {
-      if (fins != null) fins.close();
-    }
-
+    FileInputStream fins = new FileInputStream(filename);
+    Properties prop = new Properties();
+    prop.load(fins);
+    fins.close();
     return prop;
   }
 }
