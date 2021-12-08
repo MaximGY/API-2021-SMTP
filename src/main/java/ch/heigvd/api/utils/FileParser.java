@@ -20,7 +20,8 @@ public class FileParser {
    * @return An ArrayList of Messages.
    * @throws IOException If an error occurs while reading the file.
    */
-  public static ArrayList<Message> getMessagesFromFile(@NotNull String filename) throws IOException {
+  public static ArrayList<Message> getMessagesFromFile(@NotNull String filename)
+      throws IOException {
     ArrayList<Message> messages = new ArrayList<>();
 
     Scanner scanner = new Scanner(new FileInputStream(filename), StandardCharsets.UTF_8);

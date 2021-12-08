@@ -116,6 +116,7 @@ public class PrankGenerator {
 
   /**
    * Prints all codes received from the server.
+   *
    * @param codes And ArrayList of SMTPCodes to print.
    */
   private static void printCodes(ArrayList<SMTPCode> codes) {

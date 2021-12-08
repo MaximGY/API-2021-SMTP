@@ -17,16 +17,12 @@ public class Mail {
     this.message = message;
   }
 
-  /**
-   * @return The Group to prank.
-   */
+  /** @return The Group to prank. */
   public Group getGroup() {
     return group;
   }
 
-  /**
-   * @return The Message to send.
-   */
+  /** @return The Message to send. */
   public Message getMessage() {
     return message;
   }

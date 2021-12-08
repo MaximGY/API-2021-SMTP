@@ -16,9 +16,7 @@ public class User {
     this.email = email;
   }
 
-  /**
-   * @return The email address of this User.
-   */
+  /** @return The email address of this User. */
   public String getEMailAddress() {
     return email;
   }

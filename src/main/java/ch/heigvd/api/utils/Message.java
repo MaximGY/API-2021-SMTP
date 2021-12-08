@@ -21,23 +21,17 @@ public class Message {
     this.body = body;
   }
 
-  /**
-   * @return The subject of this Message.
-   */
+  /** @return The subject of this Message. */
   public String getSubject() {
     return subject;
   }
 
-  /**
-   * @return The subject of this Message encoded in base 64.
-   */
+  /** @return The subject of this Message encoded in base 64. */
   public String getBase64Subject() {
     return new String(Base64.getEncoder().encode(subject.getBytes(StandardCharsets.UTF_8)));
   }
 
-  /**
-   * @return The subject of this Message.
-   */
+  /** @return The subject of this Message. */
   public String getBody() {
     return body;
   }

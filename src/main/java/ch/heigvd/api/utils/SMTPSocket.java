@@ -7,9 +7,7 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-/**
- * Represents a connection to a SMTP server.
- */
+/** Represents a connection to a SMTP server. */
 public class SMTPSocket implements Closeable {
 
   private static final String LF = "\n";
@@ -134,7 +132,11 @@ public class SMTPSocket implements Closeable {
 
     sb.append("Content-Type: text/plain; charset=utf-8").append(CRLF); // Set encoding to UTF-8
 
-    sb.append("Subject: =?UTF-8?B?").append(message.getBase64Subject()).append("?=").append(CRLF).append(CRLF);
+    sb.append("Subject: =?UTF-8?B?")
+        .append(message.getBase64Subject())
+        .append("?=")
+        .append(CRLF)
+        .append(CRLF);
     // Prevent unexpected ending if a message contrains the sequence "<CRLF>.<CRLF>"
     sb.append(message.getBody().replace(CRLF, LF));
 

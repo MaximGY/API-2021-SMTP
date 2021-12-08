@@ -15,16 +15,12 @@ public class SMTPCode {
     this.value = value;
   }
 
-  /**
-   * @return The code returned by the server.
-   */
+  /** @return The code returned by the server. */
   public int getCode() {
     return code;
   }
 
-  /**
-   * @return The value linked to the code.
-   */
+  /** @return The value linked to the code. */
   public String getValue() {
     return value;
   }
