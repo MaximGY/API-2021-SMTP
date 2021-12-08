@@ -1,14 +1,14 @@
-API-2021-SMTP: Lucien Perregaux, Maxim Golay
---------------------------------------------
+# Laboratoire 04 - API 2021 SMTP
+Auteurs : Maxim Golay & Lucien Perregaux
 
-### Description
+## Description
 
 Ce projet a pour but d'envoyer une campagne de plaisanteries par mail.
 L'application est écrite en Java et est entièrement paramétrable via les fichiers de configuration qu'elle offre.
 Nous proposons également un serveur SMTP bidon (MockMock), sous la forme d'une image Docker, pour voir le résultat de son exécution.
 
 
-### Installation du serveur bidon
+## Installation du serveur bidon
 
 L'installation du serveur bidon nécessite d'avoir une installation de Docker fonctionnelle au préalable.
 
@@ -30,7 +30,7 @@ Le premier port permet de communiquer via le protocole SMTP et le second permet 
 le résultat de ces requêtes.
 
 
-### Configuration de l'application
+## Configuration de l'application
 
 Le programme a besoin de 3 paramètres, passés par lignes de commande, qui sont les 3 fichiers mentionnés ci-dessous et dans l'ordre dans lequel ils sont mentionnés.
 
@@ -45,7 +45,7 @@ Le programme a besoin de 3 paramètres, passés par lignes de commande, qui sont
 Un exemple de fichier de configurations se trouve dans le dossier `config` à la racine du projet.
 
 
-### Fonctionnement
+## Fonctionnement
 
 L'application commence par s'assurer qu'il puisse y avoir au moins trois victimes par groupe.
 Ensuite, celle-ci créé des groupes aléatoires en choisissant parmi les adresses mails et selon le nombre de groupes
@@ -54,3 +54,9 @@ L'algorithme est fait tel qu'une victime n'apparait **qu'une et une seule fois**
 
 Enfin, pour chaque groupe, l'*expéditeur* envoie un mail aux *destinataires* choisis préalablement.
 Dans le header du mail, le champ `Sender: ` utilisera l'adresse mail de l'expéditeur, usurpant ainsi son identité.
+
+<div style="page-break-before:always"></div>
+
+## Diagramme de classes
+
+![UML](UML.png)
