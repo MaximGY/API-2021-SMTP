@@ -8,6 +8,11 @@ import java.util.*;
 public class PrankGenerator {
   static final Random random = new Random();
 
+  /**
+   * Application entrypoint.
+   *
+   * @param args The various config files path.
+   */
   public static void main(String[] args) {
     if (args.length != 3) {
       System.err.println("Usage: ./main {settings.properties} {victims.utf8} {messages.utf8}");
@@ -59,6 +64,13 @@ public class PrankGenerator {
     }
   }
 
+  /**
+   * Generate random groups according to the loaded config.
+   *
+   * @param victims An array of User receiving a prank
+   * @param nbGroups The number of groups to make
+   * @return An ArrayList of Groups.
+   */
   private static ArrayList<Group> generateGroups(ArrayList<User> victims, int nbGroups) {
     if (nbGroups <= 0)
       throw new RuntimeException("The number of groups must be greater than zero.");
@@ -85,6 +97,13 @@ public class PrankGenerator {
     return groups;
   }
 
+  /**
+   * Create random Mails from the given Messages and Groups.
+   *
+   * @param groups The various Groups to target.
+   * @param messages The pool of messages to pick from.
+   * @return An ArrayList of Mails generated.
+   */
   private static ArrayList<Mail> generateMails(
       ArrayList<Group> groups, ArrayList<Message> messages) {
     ArrayList<Mail> mails = new ArrayList<>(groups.size());
@@ -95,6 +114,10 @@ public class PrankGenerator {
     return mails;
   }
 
+  /**
+   * Prints all codes received from the server.
+   * @param codes And ArrayList of SMTPCodes to print.
+   */
   private static void printCodes(ArrayList<SMTPCode> codes) {
     for (SMTPCode c : codes) System.out.println(c);
   }
