@@ -29,21 +29,18 @@ public class PrankGenerator {
       prop = FileParser.getPropertiesFromFile(args[0]);
       victims = FileParser.getUsersFromFile(args[1]);
       messages = FileParser.getMessagesFromFile(args[2]);
-
     } catch (IOException e) {
       System.err.println(e.getMessage());
       return;
     }
 
-    ArrayList<Group> groups =
-        generateGroups(victims, Integer.parseInt(prop.getProperty("nbgroups")));
-    ArrayList<Mail> mails = generateMails(groups, messages);
-
-    ArrayList<SMTPCode> codes;
-
     try (SMTPSocket smtpSocket =
         new SMTPSocket(prop.getProperty("host"), Integer.parseInt(prop.getProperty("port")))) {
-      codes = smtpSocket.readCodes();
+
+      ArrayList<Group> groups = generateGroups(victims, Integer.parseInt(prop.getProperty("nbgroups")));
+      ArrayList<Mail> mails = generateMails(groups, messages);
+
+      ArrayList<SMTPCode> codes = smtpSocket.readCodes();
       printCodes(codes);
       smtpSocket.connect();
       codes = smtpSocket.readCodes();
@@ -73,7 +70,8 @@ public class PrankGenerator {
    * @param nbGroups The number of groups to make
    * @return An ArrayList of Groups.
    */
-  private static ArrayList<Group> generateGroups(ArrayList<User> victims, int nbGroups) {
+  private static ArrayList<Group> generateGroups(ArrayList<User> victims, int nbGroups)
+      throws RuntimeException {
     if (nbGroups <= 0)
       throw new RuntimeException("The number of groups must be greater than zero.");
 
